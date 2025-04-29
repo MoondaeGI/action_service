@@ -24,14 +24,14 @@ if __name__ == "__main__":
 
     if action == "opened":
         # PR 오픈
-        send_pull_request_alarm(slack_service)
+        send_pull_request_alarm(slack_service, pr_title, pr_author)
 
     elif action == "closed":
         # PR 닫힘: merged 여부 판단
         if merged and merged.lower() == "true":
-            merge_alarm(slack_service)
+            merge_alarm(slack_service, pr_title, pr_author)
         else:
-            closed_alarm(slack_service)
+            closed_alarm(slack_service, pr_title, pr_author)
 
     else:
         print(f"Unknown action: {action}")
