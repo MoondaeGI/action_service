@@ -16,6 +16,7 @@ def update_all_new_commits():
     try:
         last_hash = notion_service.select_last_commit_hash()
         current_head = repo.head.commit
+        print("test")
 
         if not last_hash or last_hash is None:
             commit = repo.head.commit
