@@ -18,7 +18,7 @@ if __name__ == "__main__":
     merged = sys.argv[2] if len(sys.argv) > 2 else None
 
     print(action, merged)
-    print("test1")
+    print("test12")
 
     if action == "opened":
         # PR 오픈
