@@ -17,6 +17,8 @@ if __name__ == "__main__":
     action = sys.argv[1]
     merged = sys.argv[2] if len(sys.argv) > 2 else None
 
+    print(action, merged)
+
     if action == "opened":
         # PR 오픈
         send_pull_request_alarm(slack_service)
