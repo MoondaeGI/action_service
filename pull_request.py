@@ -5,10 +5,10 @@ def send_pull_request_alarm(slack_service, pr_title, pr_author):
     slack_service.send_alarm(f"{pr_author}의 pr이 도착했습니다. {pr_title}")
 
 def merge_alarm(slack_service, pr_title, pr_author):
-    slack_service.send_alarm(f"{pr_author}님의 {pr_title}이 merge되었습니다.")
+    slack_service.send_alarm(f"{pr_author}님의 {pr_title}이(가) merge되었습니다.")
 
 def closed_alarm(slack_service, pr_title, pr_author):
-    slack_service.send_alarm(f"{pr_author}님의 {pr_title}이 반려되었습니다.")
+    slack_service.send_alarm(f"{pr_author}님의 {pr_title}이(가) 반려되었습니다.")
 
 if __name__ == "__main__":
     slack_service = SlackService()
