@@ -1,0 +1,46 @@
+name: Notion Commit Sync
+
+on:
+  push:
+    branches: [ master ]  # 원하는 브랜치로 설정
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  send-to-notion:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # 전체 Git 히스토리를 가져오도록 설정
+
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Commit Summary Script
+        if: github.event_name == 'push'
+        env:
+          NOTION_API_KEY: ${{secrets.NOTION_API_KEY}}
+          NOTION_DB_ID: ${{secrets.NOTION_DB_ID}}
+          OPENAI_API_KEY: ${{secrets.OPENAI_API_KEY}}
+          SLACK_BOT_USER_OAUTH_TOKEN: ${{ secrets.SLACK_BOT_USER_OAUTH_TOKEN }}
+          SLACK_CHANNEL_ID: ${{secrets.SLACK_CHANNEL_ID}}
+        run: |
+          python commit_summary.py
+
+      - name: Run Slack Alarm for Pull Request
+        if: github.event_name == 'pull_request'
+        env:
+          SLACK_BOT_USER_OAUTH_TOKEN: ${{secrets.SLCK_BOT_USER_OAUTH_TOKEN}}
+          SLACK_CHANNEL_ID: ${{secrets.SLACK_CHANNEL_ID}}
+        run: |
+          python alarm.py ${{ github.event.action }} ${{ github.event.pull_request.merged }}
