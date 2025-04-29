@@ -1,5 +1,6 @@
 import os
-from git import Repo
+from git import Repo, GitCommandError
+from gitdb.exc import BadName
 from openai import OpenAI
 from notion_service import NotionService
 from slack_service import SlackService
@@ -76,16 +77,33 @@ def get_commit_info(commit):
 
     return commit_message, commit_hash, changed_files, commit_date, ai_summary
 
+def update_commit(notion_service, commit):
+    commit_message, commit_hash, changed_files, commit_date, ai_summary = get_commit_info(commit)
+    notion_service.update_commit(commit_message, commit_hash, changed_files, commit_date, ai_summary)
+
 def update_all_new_commits():
     notion_service = NotionService()
-
     repo = Repo(search_parent_directories=True)
-    last_hash = notion_service.select_last_commit_hash()
-    current_head = repo.head.commit
 
-    for commit in repo.iter_commits(f"{last_hash}..{current_head}"):
-        commit_message, commit_hash, changed_files, commit_date, ai_summary = get_commit_info(commit)
-        notion_service.update_commit(commit_message, commit_hash, changed_files, commit_date, ai_summary)
+    try:
+        last_hash = notion_service.select_last_commit_hash()
+        current_head = repo.head.commit
+
+        if not last_hash or last_hash is None:
+            commit = repo.head.commit
+            update_commit(notion_service, commit)
+            return
+
+        try:
+            repo.commit(last_hash)
+            for commit in repo.iter_commits(f"{last_hash}..{current_head}"):
+                update_commit(notion_service, commit)
+        except (BadName, GitCommandError) as e:
+            print(f"커밋을 찾을 수 없음: {str(e)}")
+            commit = repo.head.commit
+            update_commit(notion_service, commit)
+    except Exception as e:
+        print(f"예상치 못한 에러 발생: {str(e)}")
 
 # 메인 실행
 if __name__ == "__main__":
