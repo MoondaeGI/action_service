@@ -39,6 +39,6 @@ if __name__ == "__main__":
     slack_service = SlackService()
 
     update_all_new_commits()
-    slack_service.send_alarm("push")
+    slack_service.send_alarm("push가 완료되었습니다.")
 
 

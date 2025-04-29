@@ -11,27 +11,13 @@ class SlackService:
             "Content-Type": "application/json; charset=utf-8"
         }
 
-    def send_alarm(self, state):
-        text = self.makeText(state)
-
+    def send_alarm(self, message):
         data = {
             "channel": self.channel_id,
-            "text": text
+            "text": message
         }
 
         print(self.headers)
         print(data)
         response = requests.post(self.url, headers=self.headers, json=data)
         print(response.json())
-
-    def makeText(self, state) -> str | None:
-        if state == "push":
-            return "push가 완료되었습니다."
-        elif state == "merge":
-            return "request가 merge되었습니다."
-        elif state == "closed":
-            return "request가 반려되었습니다."
-        elif state == "pull_request":
-            return "pull_request가 도착했습니다."
-        else:
-            return None
