@@ -1,5 +1,5 @@
 import sys
-from slack_service import SlackService
+from service.slack_service import SlackService
 
 def send_pull_request_alarm(slack_service):
     slack_service.send_alarm("pull_request")
