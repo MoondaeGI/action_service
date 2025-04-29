@@ -44,4 +44,6 @@ jobs:
           SLACK_BOT_USER_OAUTH_TOKEN: ${{ secrets.SLACK_BOT_USER_OAUTH_TOKEN }}
           SLACK_CHANNEL_ID: ${{secrets.SLACK_CHANNEL_ID}}
         run: |
-          python pull_request.py ${{ github.event.action }} ${{ github.event.pull_request.merged }}
+          python pull_request.py 
+              ${{ github.event.action }} ${{ github.event.pull_request.merged }} 
+              "${{ github.event.pull_request.title }}" "${{ github.event.pull_request.user.login }}"
