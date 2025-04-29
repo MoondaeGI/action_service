@@ -25,11 +25,11 @@ def update_all_new_commits():
         try:
             repo.commit(last_hash)
             for commit in repo.iter_commits(f"{last_hash}..{current_head}"):
-                update_commit(notion_service, commit)
+                update_commit(git_service, notion_service, commit)
         except (BadName, GitCommandError) as e:
             print(f"커밋을 찾을 수 없음: {str(e)}")
             commit = repo.head.commit
-            update_commit(notion_service, commit)
+            update_commit(git_service, notion_service, commit)
     except Exception as e:
         print(f"예상치 못한 에러 발생: {str(e)}")
 
