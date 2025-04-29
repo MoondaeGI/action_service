@@ -20,7 +20,7 @@ if __name__ == "__main__":
     pr_author = sys.argv[4] if len(sys.argv) > 4 else "Unknown Author"
 
     print(action, merged)
-    print("test2")
+    print("test21")
 
     if action == "opened":
         # PR 오픈
