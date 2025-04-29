@@ -5,6 +5,7 @@ on:
     branches: [ master ]  # 원하는 브랜치로 설정
   pull_request_target:
     branches: [ master ]
+    types: [opened, closed]
 
 jobs:
   send-to-notion:
