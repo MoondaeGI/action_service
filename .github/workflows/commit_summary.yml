@@ -38,7 +38,7 @@ jobs:
           python push.py
 
       - name: Run Slack Alarm for Pull Request
-        if: github.event_name == 'pull_request' || contains(github.event.head_commit.message, 'Merge pull request')
+        if: github.event_name == 'pull_request'
         env:
           SLACK_BOT_USER_OAUTH_TOKEN: ${{ secrets.SLACK_BOT_USER_OAUTH_TOKEN }}
           SLACK_CHANNEL_ID: ${{secrets.SLACK_CHANNEL_ID}}
