@@ -35,7 +35,7 @@ jobs:
           SLACK_BOT_USER_OAUTH_TOKEN: ${{ secrets.SLACK_BOT_USER_OAUTH_TOKEN }}
           SLACK_CHANNEL_ID: ${{secrets.SLACK_CHANNEL_ID}}
         run: |
-          python commit_summary.py
+          python push.py
 
       - name: Run Slack Alarm for Pull Request
         if: github.event_name == 'pull_request'
@@ -43,4 +43,4 @@ jobs:
           SLACK_BOT_USER_OAUTH_TOKEN: ${{secrets.SLCK_BOT_USER_OAUTH_TOKEN}}
           SLACK_CHANNEL_ID: ${{secrets.SLACK_CHANNEL_ID}}
         run: |
-          python alarm.py ${{ github.event.action }} ${{ github.event.pull_request.merged }}
+          python pull_request.py ${{ github.event.action }} ${{ github.event.pull_request.merged }}
