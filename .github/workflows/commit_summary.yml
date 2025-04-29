@@ -38,7 +38,7 @@ jobs:
           python push.py
 
       - name: Run Slack Alarm for Pull Request
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request_target'
         env:
           SLACK_BOT_USER_OAUTH_TOKEN: ${{ secrets.SLACK_BOT_USER_OAUTH_TOKEN }}
           SLACK_CHANNEL_ID: ${{secrets.SLACK_CHANNEL_ID}}
