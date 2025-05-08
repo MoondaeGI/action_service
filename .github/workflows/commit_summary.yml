@@ -25,6 +25,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
+          cd .github/scripts
           pip install -r requirements.txt
 
       - name: Run Commit Summary Script
@@ -36,6 +37,7 @@ jobs:
           SLACK_BOT_USER_OAUTH_TOKEN: ${{ secrets.SLACK_BOT_USER_OAUTH_TOKEN }}
           SLACK_CHANNEL_ID: ${{secrets.SLACK_CHANNEL_ID}}
         run: |
+          cd .github/scripts
           python push.py
 
       - name: Run Slack Alarm for Pull Request
@@ -44,4 +46,5 @@ jobs:
           SLACK_BOT_USER_OAUTH_TOKEN: ${{ secrets.SLACK_BOT_USER_OAUTH_TOKEN }}
           SLACK_CHANNEL_ID: ${{secrets.SLACK_CHANNEL_ID}}
         run: |
+          cd .github/scripts
           python pull_request.py ${{ github.event.action }} ${{ github.event.pull_request.merged }} "${{ github.event.pull_request.title }}" "${{ github.event.pull_request.user.login }}"
