@@ -16,8 +16,4 @@ class SlackService:
             "channel": self.channel_id,
             "text": message
         }
-
-        print(self.headers)
-        print(data)
-        response = requests.post(self.url, headers=self.headers, json=data)
-        print(response.json())
+        requests.post(self.url, headers=self.headers, json=data)
