@@ -17,3 +17,4 @@ class SlackService:
             "text": message
         }
         requests.post(self.url, headers=self.headers, json=data)
+        print("test")
